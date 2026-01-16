@@ -5,13 +5,11 @@ const ContactModal = ({ isOpen, onClose, email, title }) => {
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* Backdrop: Darkens the background and closes on click */}
             <div
                 className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
                 onClick={onClose}
             ></div>
 
-            {/* Modal Content */}
             <div className="relative bg-slate-900 border border-slate-800 w-full max-w-md rounded-2xl p-8 shadow-2xl animate-in fade-in zoom-in duration-200">
                 <button
                     onClick={onClose}

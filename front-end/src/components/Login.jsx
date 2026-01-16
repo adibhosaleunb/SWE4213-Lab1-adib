@@ -24,13 +24,9 @@ const Login = ({ onLogin, onSignUpClick }) => {
             const data = await response.json();
 
             if (response.ok) {
-                // 2. Store the JWT token in LocalStorage
                 localStorage.setItem('token', data.token);
-
-                // 3. Notify the parent (App.js) that we are logged in
                 onLogin(data.user);
             } else {
-                // Handle "Invalid credentials" or other errors
                 setError(data.message || 'Login failed');
             }
         } catch (err) {

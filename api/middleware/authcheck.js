@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+
+// Note: We should never expose our secret key in the code
 const SECRET_KEY = "unb_marketplace_secret_key";
 
 function authcheck(req, res, next) {

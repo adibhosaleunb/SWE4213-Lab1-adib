@@ -1,6 +1,5 @@
 // src/App.jsx
 import { useState } from 'react'
-import './App.css'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import AuthContainer from './components/AuthContainer'
@@ -37,7 +36,7 @@ function App() {
           <ContactModal
             isOpen={!!selectedItem}
             onClose={() => setSelectedItem(null)}
-            email={selectedItem?.email}
+            email={selectedItem?.owner_email}
             title={selectedItem?.title}
           />
         </>

@@ -7,16 +7,13 @@ const Header = ({ onLogout, setMyListings }) => {
         <header className="w-full bg-slate-900 text-gray-300 border-b border-slate-800 sticky top-0 z-50">
             <div className="w-full px-[20px] sm:px-[50px] py-4 flex items-center justify-between">
 
-                {/* --- 1. Left Section: Nav Links --- */}
                 <div className="flex-1 flex items-center">
-                    {/* Only show these if the screen is large (lg) */}
                     <nav className="hidden lg:flex space-x-8 text-sm font-medium">
                         <button className="hover:text-white transition-colors" onClick={() => setMyListings(false)}>Browse</button>
                         <button className="hover:text-white transition-colors" onClick={() => setMyListings(true)}>My Listings</button>
                     </nav>
                 </div>
 
-                {/* --- 2. Middle Section: Search Bar (Stays Centered) --- */}
                 <div className="flex-1 flex justify-center">
                     <div className="relative w-full max-w-md">
                         <input
@@ -32,7 +29,6 @@ const Header = ({ onLogout, setMyListings }) => {
                     </div>
                 </div>
 
-                {/* --- 3. Right Section: Profile & Mobile Menu --- */}
                 <div className="flex-1 flex justify-end">
                     <div className="relative">
                         <button
@@ -50,7 +46,6 @@ const Header = ({ onLogout, setMyListings }) => {
                         {/* Dropdown Menu */}
                         {isDropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 z-50 animate-in fade-in zoom-in duration-150">
-                                {/* Mobile-only links (show when screen is smaller than lg) */}
                                 <div className="lg:hidden border-b border-slate-700 mb-2 pb-2">
                                     <button className="block w-full text-left px-4 py-2 text-sm hover:bg-slate-700">Browse</button>
                                     <button className="block w-full text-left px-4 py-2 text-sm hover:bg-slate-700">My Listings</button>

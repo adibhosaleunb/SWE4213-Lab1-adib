@@ -1,90 +1,100 @@
-// Create the following endpoints:
-// - POST /auth/login
-// - POST /auth/register
-// - GET /auth/status
-
 const jwt = require("jsonwebtoken");
 const express = require("express");
-const bcrypt = require("bcrypt"); // Import bcrypt
+const bcrypt = require("bcrypt");
 const router = express.Router();
 const authcheck = require("../middleware/authcheck");
 
 const SECRET_KEY = "unb_marketplace_secret_key";
-const SALT_ROUNDS = 10; // Standard for security vs performance
-
-const users = [
-    {
-        id: 1,
-        email: "test@unb.ca",
-        password: bcrypt.hashSync("123456789", SALT_ROUNDS) 
-    }
-]; 
+const SALT_ROUNDS = 10;
 
 router.post("/auth/register", async (req, res) => {
-    const { username, password } = req.body;
+    const pool = req.app.get('db');
+    const { email, password } = req.body; // Changed 'username' to 'email' to match your schema
 
-    if (!username.toLowerCase().endsWith("@unb.ca")) {
+    if (!email.toLowerCase().endsWith("@unb.ca")) {
         return res.status(403).json({
             message: "Registration is only available for UNB students (@unb.ca)."
         });
     }
 
-    if (users.find(u => u.username === username)) {
-        return res.status(409).json({ message: "User already exists" });
-    }
-
     try {
-        // Generate salt and hash the password
+        // 1. Check if user already exists
+        const userExists = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        if (userExists.rows.length > 0) {
+            return res.status(409).json({ message: "User already exists" });
+        }
+
+        // 2. Hash the password
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-        const newUser = {
-            id: users.length + 1,
-            username,
-            password: hashedPassword // Save the HASH, never the plain text
-        };
+        // 3. Insert into PostgreSQL
+        await pool.query(
+            "INSERT INTO users (email, password) VALUES ($1, $2)",
+            [email, hashedPassword]
+        );
 
-        users.push(newUser);
         res.status(201).json({ message: "User registered successfully" });
     } catch (err) {
+        console.error(err);
         res.status(500).json({ message: "Error creating user" });
     }
 });
 
 router.post("/auth/login", async (req, res) => {
+    const pool = req.app.get('db');
     const { email, password } = req.body;
 
-    const user = users.find(u => u.email === email);
+    try {
+        // 1. Find user by email
+        const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        const user = result.rows[0];
 
-    if (user) {
-        // Use bcrypt.compare to check if the password matches the hash
-        const isMatch = await bcrypt.compare(password, user.password);
+        if (user) {
+            // 2. Compare password with the stored hash
+            const isMatch = await bcrypt.compare(password, user.password);
 
-        if (isMatch) {
-            const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+            if (isMatch) {
+                const token = jwt.sign(
+                    { userId: user.id, email: user.email },
+                    SECRET_KEY,
+                    { expiresIn: '1h' }
+                );
 
-            return res.status(200).json({
-                message: "Login successful",
-                token: token,
-                user: { id: user.id, email: user.email }
-            });
+                return res.status(200).json({
+                    message: "Login successful",
+                    token: token,
+                    user: { id: user.id, email: user.email }
+                });
+            }
         }
-    }
 
-    // Use generic "Invalid credentials" to prevent account enumeration
-    res.status(401).json({ message: "Invalid credentials" });
+        res.status(401).json({ message: "Invalid credentials" });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error during login" });
+    }
 });
 
-router.get("/auth/status", authcheck, (req, res) => {
-    const user = users.find(u => u.id === req.user.userId);
+router.get("/auth/status", authcheck, async (req, res) => {
+    const pool = req.app.get('db');
 
-    if (!user) {
-        return res.status(404).json({ message: "User not found" });
+    try {
+        // Find user by the ID attached to req.user by the authcheck middleware
+        const result = await pool.query("SELECT id, email FROM users WHERE id = $1", [req.user.userId]);
+        const user = result.rows[0];
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({
+            message: "User is logged in.",
+            user: { id: user.id, email: user.email }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error checking status" });
     }
-
-    res.status(200).json({
-        message: "User is logged in.",
-        user: { id: user.id, username: user.username }
-    });
 });
 
 module.exports = router;

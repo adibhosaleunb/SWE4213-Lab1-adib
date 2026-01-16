@@ -1,17 +1,23 @@
 const express = require('express');
-const cors = require('cors'); // 1. Import it
+const cors = require('cors');
+const { Pool } = require('pg'); // 1. Import Pool from pg
 const app = express();
 
-// 2. Enable CORS for your React dev server
+const pool = new Pool({
+    connectionString: "postgres://<username>:<password>@localhost:5432/unb_marketplace"
+});
+
+app.set('db', pool);
+
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow only your frontend
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
-// Your routes go below here
+// Routes
 const authRoutes = require('./endpoints/auth');
 app.use('/', authRoutes);
 
