@@ -15,12 +15,14 @@ router.get("/products", async (req, res) => {
 });
 
 // GET /products/mylistings - Get products for the logged-in user
+//issue 8 - Fixed the incorrect Query, included owner email in search criteria. 
 router.get("/products/mylistings", authcheck, async (req, res) => {
     const pool = req.app.get('db');
     try {
         const userEmail = req.user.email;
+        console.log(userEmail);
         const result = await pool.query(
-            "SELECT * FROM products ORDER BY id DESC",
+            "SELECT * FROM products where owner_email = $1 ORDER BY id DESC",
             [userEmail]
         );
         res.json(result.rows);
@@ -48,4 +50,36 @@ router.post("/products", authcheck, async (req, res) => {
     }
 });
 
+
+//Delete selected Product
+router.delete("/products/delete/:id",async(req,res)=>{
+    const pool = req.app.get('db');
+    const { id } = req.params;
+    console.log(req.params)
+    try{
+       
+        const result = await pool.query(
+            "DELETE from products Where id= $1 RETURNING *",
+            [id]
+        );
+         if (result.rowCount === 0) {
+            return res.status(404).json({
+            success: false,
+            message: "Product not found"
+         });
+         }
+
+        res.status(200).json({
+        success: true,
+        message: "Product deleted successfully",
+        data: result.rows[0]
+        });
+    }catch(error){
+      res.status(500).json({
+      success: false,
+      message: "Failed to delete product",
+      error: error.message
+     });
+    }
+});
 module.exports = router;

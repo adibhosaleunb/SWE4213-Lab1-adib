@@ -36,6 +36,31 @@ const Listings = ({ onSelectItem, myListings }) => {
         }
     };
 
+     const deleteProduct = async (prodId) => { 
+        try {
+            console.log({prodId});
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:3000/products/delete/${prodId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                  setProducts(prev =>
+                    prev.filter(product => product.id !== prodId)
+                    );        
+            }
+        } catch (err) {
+            console.error("Failed to Delete listing:", err);
+        }
+    }; 
+
     useEffect(() => {
         fetchProducts();
     }, [myListings]);
@@ -58,7 +83,9 @@ const Listings = ({ onSelectItem, myListings }) => {
                         image={product.image_url || `https://picsum.photos/seed/${product.id}/400/400`}
                         title={product.title}
                         price={product.price}
+                        prodId={product.id}
                         onView={() => onSelectItem(product)}
+                        onDelete={deleteProduct}
                     />
                 ))}
 

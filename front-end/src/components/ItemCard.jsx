@@ -1,6 +1,8 @@
 import React from 'react';
+// import Listings from 'Listing.jsx';
 
-const ItemCard = ({ image, title, price, onView }) => {
+const ItemCard = ({image, prodId, title, price, onView , onDelete}) => {
+
     return (
         <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-pointer group flex flex-col h-full">
 
@@ -32,6 +34,15 @@ const ItemCard = ({ image, title, price, onView }) => {
                         className="bg-slate-700 hover:bg-slate-600 text-white text-[10px] uppercase tracking-wider font-bold py-1 px-2.5 rounded transition-colors border border-slate-600 active:scale-95"
                     >
                         Contact
+                    </button>
+                     <button
+                        onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(prodId);
+                        }} 
+                        className="bg-slate-700 hover:bg-slate-600 text-white text-[10px] uppercase tracking-wider font-bold py-1 px-2.5 rounded transition-colors border border-slate-600 active:scale-95"
+                    >
+                        X
                     </button>
                 </div>
             </div>
