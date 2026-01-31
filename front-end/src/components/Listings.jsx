@@ -16,8 +16,8 @@ const Listings = ({ onSelectItem, myListings }) => {
         try {
             const token = localStorage.getItem('token');
             const endpoint = myListings
-                ? 'http://localhost:3000/products/mylistings'
-                : 'http://localhost:3000/products';
+                ? 'http://localhost:3000/v2/products/mylistings'
+                : 'http://localhost:3000/v2/products';
 
             const response = await fetch(endpoint, {
                 method: 'GET',
