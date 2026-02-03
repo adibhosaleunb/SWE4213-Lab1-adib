@@ -19,16 +19,16 @@ CREATE TABLE IF NOT EXISTS products (
 
 --DATA FOR products TABLE
 INSERT INTO unb_marketplace.products (title, price, image_url, owner_email) VALUES
-('Wireless Mouse', 19.99, 'https://example.com/images/mouse.jpg', 'adibhosale@unb.ca'),
-('Mechanical Keyboard', 89.99, 'https://example.com/images/keyboard.jpg', 'adibhosale@unb.ca'),
-('USB-C Hub', 29.50, 'https://example.com/images/hub.jpg', 'adibhosale@unb.ca'),
-('Laptop Stand', 34.75, 'https://example.com/images/stand.jpg', 'adibhosale@unb.ca'),
-('Noise Cancelling Headphones', 129.99, 'https://example.com/images/headphones.jpg', 'adibhosale@unb.ca'),
-('Webcam 1080p', 49.99, 'https://example.com/images/webcam.jpg', 'adibhosale@unb.ca'),
-('Portable SSD 1TB', 149.00, 'https://example.com/images/ssd.jpg', 'adibhosale@unb.ca'),
-('Bluetooth Speaker', 59.99, 'https://example.com/images/speaker.jpg', 'adibhosale@unb.ca'),
-('Smartphone Tripod', 24.99, 'https://example.com/images/tripod.jpg', 'adibhosale@unb.ca'),
-('Wireless Charger', 27.49, 'https://example.com/images/charger.jpg', 'adibhosale@unb.ca');
+('Wireless Charger Pad', 22.99, 'https://example.com/images/charger.jpg', 'adibhosale@unb.ca'),
+('Gaming Mouse Pad XL', 18.49, 'https://example.com/images/mousepad.jpg', 'john.doe@unb.ca'),
+('Laptop Backpack', 64.99, 'https://example.com/images/backpack.jpg', 'adibhosale@unb.ca'),
+('USB Flash Drive 128GB', 21.99, 'https://example.com/images/flashdrive.jpg', 'sarah.lee@unb.ca'),
+('External Hard Drive 2TB', 109.99, 'https://example.com/images/harddrive.jpg', 'michael.chan@unb.ca'),
+('Desk LED Lamp', 27.50, 'https://example.com/images/desklamp.jpg', 'adibhosale@unb.ca'),
+('Bluetooth Earbuds', 79.99, 'https://example.com/images/earbuds.jpg', 'emma.wilson@unb.ca'),
+('HDMI Cable 2m', 12.99, 'https://example.com/images/hdmi.jpg', 'rohit.patel@unb.ca'),
+('Ergonomic Office Chair Cushion', 39.99, 'https://example.com/images/cushion.jpg', 'adibhosale@unb.ca'),
+('Smart Power Strip', 34.99, 'https://example.com/images/powerstrip.jpg', 'linda.brown@unb.ca');
 
 
 
