@@ -5,6 +5,8 @@ Hint: It is possible that something is missing in this documentation which will 
 
 **Note:** Don't forget to include your name, student number, and use of AI statement in your README.md.
 
+**Name**: Aditya Bhosale - 3810398 
+
 ## Setup DB 
 Shown here are the commands you need to start up your database. 
 
@@ -31,3 +33,9 @@ Open another terminal in vscode.
 
 - **Install Dependencies:** `cd front-end; npm install`
 - **Run Server:** `npm run dev` 
+
+
+**Use of AI:** 
+I used AI to generate html/css code using tailwind. Also used AI to help me setup ORM for the codebase by follwing the instructions.
+AI helped me setting up dataset for my application which links to images.
+
