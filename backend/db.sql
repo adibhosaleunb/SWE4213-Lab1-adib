@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 
+--Update query to add column
+ALTER TABLE products
+ADD COLUMN created_at DATE DEFAULT CURRENT_DATE;
 
 
 --DATA FOR products TABLE
@@ -29,6 +32,8 @@ INSERT INTO unb_marketplace.products (title, price, image_url, owner_email) VALU
 ('HDMI Cable 2m', 12.99, 'https://example.com/images/hdmi.jpg', 'rohit.patel@unb.ca'),
 ('Ergonomic Office Chair Cushion', 39.99, 'https://example.com/images/cushion.jpg', 'adibhosale@unb.ca'),
 ('Smart Power Strip', 34.99, 'https://example.com/images/powerstrip.jpg', 'linda.brown@unb.ca');
+
+
 
 
 
